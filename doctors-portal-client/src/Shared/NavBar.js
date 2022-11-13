@@ -4,7 +4,6 @@ import { Link, NavLink } from "react-router-dom";
 const NavBar = () => {
 
       let activeStyle = {
-        backgroundColor: "#4ADE80",
         color: "black",
       };
 
@@ -13,7 +12,6 @@ const NavBar = () => {
       <li className='font-semibold'>
         <NavLink
           style={({ isActive }) => (isActive ? activeStyle : undefined)}
-          className="hover:bg-green-400 lg:mr-2"
           to="/"
         >
           Home
@@ -80,14 +78,12 @@ const NavBar = () => {
           </div>
           <Link to='/' className="btn btn-ghost normal-case text-xl">Doctors Portal</Link>
         </div>
-        <div className="navbar-center hidden lg:flex">
+        <div className="navbar-end hidden lg:flex">
           <ul className="menu menu-horizontal p-0">
             {menuItems}
           </ul>
         </div>
-        <div className="navbar-end">
-          <a className="btn">Get started</a>
-        </div>
+
       </div>
     </div>
   );
