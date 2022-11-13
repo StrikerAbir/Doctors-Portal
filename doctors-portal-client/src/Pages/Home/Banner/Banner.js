@@ -6,7 +6,7 @@ import bg from "../../../assets/images/bg.png";
 // import './Banner.css'
 const Banner = () => {
   return (
-    <div className="lg:relative">
+    <div className="lg:relative lg:mt-0 mt-10">
       <img className="w-full lg:block hidden" src={bg} alt="" />
       <div className="hero lg:absolute top-52">
         <div className="hero-content flex-col lg:flex-row-reverse">
