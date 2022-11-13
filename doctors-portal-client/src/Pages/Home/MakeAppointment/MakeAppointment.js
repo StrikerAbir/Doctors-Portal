@@ -4,7 +4,7 @@ import appointment from '../../../assets/images/appointment.png'
 import PrimaryButton from '../../../SmallComponent/PrimaryButton';
 const MakeAppointment = () => {
     return (
-      <div className="lg:mt-40 mt-20 md:pb-0 pb-10" style={{background: `url(${appointment})`}}>
+      <div className="lg:mt-40 mt-20 lg:pb-0 pb-10" style={{background: `url(${appointment})`}}>
         <div className="hero">
           <div className="hero-content flex-col lg:flex-row lg:justify-around p-0">
             <img
