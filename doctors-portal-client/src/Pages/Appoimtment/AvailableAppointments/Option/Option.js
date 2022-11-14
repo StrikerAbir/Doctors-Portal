@@ -1,7 +1,6 @@
 import React from "react";
-import PrimaryButton from "../../../../SmallComponent/PrimaryButton";
 
-const Option = ({ option,setTreatment }) => {
+const Option = ({ option, setTreatment }) => {
   const { name, slots } = option;
   return (
     <div className="card  shadow-xl">
@@ -15,9 +14,10 @@ const Option = ({ option,setTreatment }) => {
         </p>
         <div className="card-actions justify-center">
           <label
+            disabled={slots.length === 0 ? true : false}
             htmlFor="booking-modal"
-                      className="text-white btn btn-primary bg-gradient-to-r from-primary to-secondary"
-                      onClick={()=>setTreatment(option) }
+            className="text-white btn btn-primary bg-gradient-to-r from-primary to-secondary"
+            onClick={() => setTreatment(option)}
           >
             Book Appointment
           </label>
