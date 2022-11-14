@@ -8,7 +8,10 @@ import PrimaryButton from "../../../SmallComponent/PrimaryButton";
 // import './Banner.css'
 const Banner = () => {
   return (
-    <div className=" lg:mt-0 mt-10" style={{ background: `url(${bg})` }}>
+    <div
+      className=" lg:mt-0 mt-10"
+      style={{ background: `url(${bg})`, backgroundSize: "cover" }}
+    >
       <div className="hero">
         <div className="hero-content flex-col lg:flex-row-reverse lg:mt-56">
           <img
@@ -29,7 +32,7 @@ const Banner = () => {
           </div>
         </div>
       </div>
-        <InfoCards></InfoCards>
+      <InfoCards></InfoCards>
     </div>
   );
 };
