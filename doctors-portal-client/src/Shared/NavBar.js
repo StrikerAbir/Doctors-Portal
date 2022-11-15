@@ -47,6 +47,12 @@ const NavBar = () => {
         {user?.uid ? (
           <>
             <NavLink
+              style={({ isActive }) => (isActive ? activeStyle : undefined)}
+              to="/dashboard"
+            >
+              Dashboard
+            </NavLink>
+            <NavLink
               onClick={handleLogOut}
               style={({ isActive }) => (isActive ? activeStyle : undefined)}
               to="/login"

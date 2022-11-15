@@ -1,22 +1,36 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
+import toast from "react-hot-toast";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../../AuthProvider/AuthProvider";
 const SignUp = () => {
-  const { createUser } = useContext(AuthContext);
+  const { createUser, updateUser } = useContext(AuthContext);
+  const [signUpError, setSignUpError] = useState(null);
   const {
     register,
     formState: { errors },
     handleSubmit,
   } = useForm();
   const handleSignUp = (data) => {
+    setSignUpError(null)
     console.log(data);
     createUser(data.email, data.password).
       then(result => {
         const user = result.user;
         console.log(user);
+        const userInfo = {
+          displayName: data.name
+        }
+        updateUser(userInfo)
+        .then(()=>{})
+          .catch(err => console.error(err))
+        toast.success('User created successfully..')
       })
-    .catch(err=>console.error(err))
+      .catch(err => {
+        console.error(err)
+        setSignUpError(err.message)
+        toast.error(err.message);
+      })
   };
 
   return (
@@ -84,6 +98,13 @@ const SignUp = () => {
                 Forgot password?
               </a>
             </label>
+          </div>
+          <div>
+            {signUpError && (
+              <p className="text-red-500 text-sm">
+                <small>{signUpError}</small>
+              </p>
+            )}
           </div>
           <div className="form-control mt-4">
             <input className="btn btn-accent" type="submit" value="SignUp" />
