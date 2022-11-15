@@ -2,15 +2,14 @@ import React, { useState } from 'react';
 import { useForm } from "react-hook-form";
 import { Link } from 'react-router-dom';
 const Login = () => {
-    const { register, handleSubmit } = useForm();
-    const [data, setData] = useState("");
+    const { register, formState:{errors},handleSubmit } = useForm();
     const handleLogin = data => {
         console.log(data);
     }
     
     return (
       <div className="h-screen flex justify-center items-center">
-        <div className="w-1/3 shadow-xl rounded-xl p-7">
+        <div className="lg:w-1/3 md:w-1/2  shadow-xl rounded-xl p-7">
           <h2 className="text-xl text-center mb-6 font-semibold">Login</h2>
           <form onSubmit={handleSubmit(handleLogin)}>
             <div className="form-control">
@@ -20,8 +19,13 @@ const Login = () => {
               <input
                 type="text"
                 className="input input-bordered"
-                {...register("email")}
+                {...register("email", { required: "Email is required." })}
               />
+              {errors.email && (
+                <p className="text-red-500 text-sm">
+                  <small>{errors.email?.message}</small>
+                </p>
+              )}
             </div>
             <div className="form-control">
               <label className="label">
@@ -30,8 +34,13 @@ const Login = () => {
               <input
                 type="password"
                 className="input input-bordered"
-                {...register("password")}
+                {...register("password", { required: "Password is required.", minLength:{value:6 , message: "Password must be 6 character long."} })}
               />
+              {errors.password && (
+                <p className="text-red-500 text-sm">
+                  <small>{errors.password?.message}</small>
+                </p>
+              )}
               <label className="label font-semibold">
                 <a href=" " className="label-text-alt link link-hover">
                   Forgot password?
