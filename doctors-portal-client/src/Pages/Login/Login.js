@@ -17,7 +17,7 @@ const Login = () => {
                 <span className="label-text font-semibold">Email</span>
               </label>
               <input
-                type="text"
+                type="email"
                 className="input input-bordered"
                 {...register("email", { required: "Email is required." })}
               />
