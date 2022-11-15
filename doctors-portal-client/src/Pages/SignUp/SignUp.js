@@ -64,10 +64,14 @@ const SignUp = () => {
               {...register("password", {
                 required: "Password is required.",
                 minLength: {
-                    value: 6,
-                    message: "Password must be 6 character long.",
+                  value: 6,
+                  message: "Password must be 6 character long.",
                 },
-                pattern:{value: /(?=.*[A-Z])(?=.*[!@#$&*])(?=.*[0-9])/, message: 'Password must have one (capital letter , special characters and number.).'}
+                pattern: {
+                  value: /(?=.*[A-Z])(?=.*[!@#$&*])(?=.*[0-9])/,
+                  message:
+                    "Password must have one (capital letter , special characters and number.).",
+                },
               })}
             />
             {errors.password && (
@@ -86,7 +90,7 @@ const SignUp = () => {
           </div>
         </form>
         <p className="text-center py-3 text-sm">
-          Already have an account?
+          Already have an account?{" "}
           <Link to="/login" className="text-primary">
             Login
           </Link>
