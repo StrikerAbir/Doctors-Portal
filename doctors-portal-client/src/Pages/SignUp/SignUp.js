@@ -3,8 +3,9 @@ import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../../AuthProvider/AuthProvider";
+import GoogleLogin from "../../Shared/GoogleLogin";
 const SignUp = () => {
-  const { createUser, updateUser } = useContext(AuthContext);
+  const { createUser, updateUserProfile } = useContext(AuthContext);
   const [signUpError, setSignUpError] = useState(null);
   const {
     register,
@@ -14,16 +15,16 @@ const SignUp = () => {
   const handleSignUp = (data) => {
     setSignUpError(null)
     console.log(data);
-    createUser(data.email, data.password).
-      then(result => {
+    createUser(data.email, data.password)
+      .then(result => {
         const user = result.user;
-        console.log(user);
         const userInfo = {
-          displayName: data.name
-        }
-        updateUser(userInfo)
-        .then(()=>{})
-          .catch(err => console.error(err))
+          displayName: data.name,
+        };
+        console.log(userInfo);
+        updateUserProfile(userInfo)
+          .then(() => {})
+          .catch((err) => console.error(err));
         toast.success('User created successfully..')
       })
       .catch(err => {
@@ -118,9 +119,7 @@ const SignUp = () => {
         </p>
         <div className="divider">OR</div>
         <div>
-          <button className="btn btn-outline w-full">
-            CONTINUE WITH GOOGLE
-          </button>
+          <GoogleLogin></GoogleLogin>
         </div>
       </div>
     </div>

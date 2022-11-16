@@ -59,11 +59,8 @@ const NavBar = () => {
             >
               Logout
             </NavLink>
-            <div>
-              <div
-                className="tooltip tooltip-bottom"
-                data-tip={user?.displayName}
-              >
+            <div className='border-l-2'>
+              <div className="avatar">
                 <div className="w-4 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2">
                   {user?.photoUrl ? (
                     <img src={user?.photoURL} alt="" />
@@ -72,6 +69,7 @@ const NavBar = () => {
                   )}
                 </div>
               </div>
+              <p>{ user?.displayName}</p>
             </div>
           </>
         ) : (

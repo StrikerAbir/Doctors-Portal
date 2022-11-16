@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../AuthProvider/AuthProvider";
+import GoogleLogin from "../../Shared/GoogleLogin";
 const Login = () => {
   const { signIn } = useContext(AuthContext);
   const {
@@ -98,9 +99,7 @@ const Login = () => {
         </p>
         <div className="divider">OR</div>
         <div>
-          <button className="btn btn-outline w-full">
-            CONTINUE WITH GOOGLE
-          </button>
+          <GoogleLogin></GoogleLogin>
         </div>
       </div>
     </div>
