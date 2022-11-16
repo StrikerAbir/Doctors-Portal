@@ -5,34 +5,47 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../AuthProvider/AuthProvider";
 import GoogleLogin from "../../Shared/GoogleLogin";
 const Login = () => {
-  const { signIn } = useContext(AuthContext);
+  const { signIn, resetPassword } = useContext(AuthContext);
   const {
     register,
     formState: { errors },
     handleSubmit,
   } = useForm();
 
-  const [loginError, setLoginError] = useState(null)
-  
+  const [loginError, setLoginError] = useState(null);
+
   const location = useLocation();
   const navigate = useNavigate();
-  const from = location.state?.from?.pathname ||'/'
+  const from = location.state?.from?.pathname || "/";
 
   const handleLogin = (data) => {
-    setLoginError(null)
+    setLoginError(null);
     console.log(data);
     signIn(data.email, data.password)
       .then((result) => {
         const user = result.user;
         console.log(user);
-        navigate(from,{replace: true})
-        toast.success('Successfully login..')
+        navigate(from, { replace: true });
+        toast.success("Successfully login..");
       })
-      .catch((err) =>{ console.error(err.message)
-        setLoginError(err.message)
+      .catch((err) => {
+        console.error(err.message);
+        setLoginError(err.message);
         toast.error(err.message);
       });
   };
+
+  const handleResetPassword = (data) => {
+    console.log(data.email);
+    resetPassword(data.email)
+      .then(() => {
+        toast.success("Check your email inbox or span folder..");
+      })
+      .catch((err) => {
+        console.error(err.message);
+        
+      });
+  }
 
   return (
     <div className="h-screen flex justify-center items-center">
@@ -74,12 +87,10 @@ const Login = () => {
                 <small>{errors.password?.message}</small>
               </p>
             )}
-            <label className="label font-semibold">
-              <a href=" " className="label-text-alt link link-hover">
-                Forgot password?
-              </a>
-            </label>
           </div>
+          <label className="label">
+            <span onClick={handleSubmit(handleResetPassword)} className="link link-hover text-xs">Forget password?</span>
+          </label>
           <div>
             {loginError && (
               <p className="text-red-500 text-sm">
