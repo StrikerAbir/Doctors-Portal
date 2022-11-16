@@ -36,7 +36,7 @@ const Services = () => {
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         {servicesData.map((service) => (
-          <ServiceCard key={service.id} service={service}></ServiceCard>
+          <ServiceCard key={Math.random()} service={service}></ServiceCard>
         ))}
       </div>
     </div>
