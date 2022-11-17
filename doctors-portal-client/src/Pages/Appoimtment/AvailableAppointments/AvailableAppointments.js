@@ -12,12 +12,17 @@ const AvailableAppointments = ({ selectedDate }) => {
   const date=format(selectedDate, "PP")
 
   // const {data:appointmentOptions,isLoading} = useQuery({  ei line or nicher line
-  const { data: appointmentOptions = [],refetch,isLoading } = useQuery({
-    queryKey: ["appointmentOptions",date],
+  const {
+    data: appointmentOptions = [],
+    refetch,
+    isLoading,
+  } = useQuery({
+    queryKey: ["appointmentOptions", date],
     queryFn: () =>
-      fetch(`http://localhost:1000/appointmentOptions?date=${date}`)
-        .then((res) => res.json()),
-      });
+      fetch(`http://localhost:1000/v2/appointmentOptions?date=${date}`).then(
+        (res) => res.json()
+      ),
+  });
       console.log(appointmentOptions);
   // useEffect(() => {
   //   fetch("http://localhost:1000/appointmentOptions")

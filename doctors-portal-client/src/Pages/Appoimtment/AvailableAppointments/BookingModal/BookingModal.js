@@ -24,7 +24,7 @@ const BookingModal = ({ treatment, selectedDate, setTreatment, refetch }) => {
       phone,
       email,
     };
-    console.log(booking);
+    // console.log(booking);
     //* TODO: send data to the server
     //* and once data is saved then close the modal
     //* and display success toast
@@ -43,6 +43,9 @@ const BookingModal = ({ treatment, selectedDate, setTreatment, refetch }) => {
         if (data.acknowledged) {
           toast.success("Booking Successful..");
           refetch();
+        } else {
+          toast.error(data.message);
+          
         }
       })
       .catch((err) => {
