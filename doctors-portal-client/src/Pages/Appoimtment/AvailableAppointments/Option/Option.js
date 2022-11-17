@@ -2,6 +2,7 @@ import React from "react";
 
 const Option = ({ option, setTreatment }) => {
   const { name, slots } = option;
+  console.log(slots.length);
   return (
     <div className="card  shadow-xl">
       <div className="card-body">

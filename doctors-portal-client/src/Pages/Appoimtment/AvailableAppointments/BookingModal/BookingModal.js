@@ -3,10 +3,10 @@ import React, { useContext } from "react";
 import toast from "react-hot-toast";
 import { AuthContext } from "../../../../AuthProvider/AuthProvider";
 
-const BookingModal = ({ treatment, selectedDate,setTreatment }) => {
+const BookingModal = ({ treatment, selectedDate, setTreatment, refetch }) => {
   const { name, slots } = treatment; //treatment is option different
 
-  const {user}= useContext(AuthContext);
+  const { user } = useContext(AuthContext);
 
   const handleBooking = (event) => {
     event.preventDefault();
@@ -41,11 +41,12 @@ const BookingModal = ({ treatment, selectedDate,setTreatment }) => {
         console.log(data);
         setTreatment(null);
         if (data.acknowledged) {
-          toast.success('Booking Successful..')
+          toast.success("Booking Successful..");
+          refetch();
         }
       })
-      .catch (err=> {
-        toast.error('Failed to booking..')
+      .catch((err) => {
+        toast.error("Failed to booking..");
       });
   };
   return (
@@ -87,7 +88,8 @@ const BookingModal = ({ treatment, selectedDate,setTreatment }) => {
                   name="fName"
                   type="text"
                   placeholder="Full Name"
-                  defaultValue={user?.displayName} disabled
+                  defaultValue={user?.displayName}
+                  disabled
                   className="input input-bordered"
                 />
               </div>
@@ -95,7 +97,8 @@ const BookingModal = ({ treatment, selectedDate,setTreatment }) => {
                 <input
                   name="phone"
                   type="text"
-                  placeholder="Phone Number" required
+                  placeholder="Phone Number"
+                  required
                   className="input input-bordered"
                 />
               </div>
@@ -104,7 +107,8 @@ const BookingModal = ({ treatment, selectedDate,setTreatment }) => {
                   name="email"
                   type="text"
                   placeholder="Email"
-                  defaultValue={user?.email} disabled
+                  defaultValue={user?.email}
+                  disabled
                   className="input input-bordered"
                 />
               </div>
