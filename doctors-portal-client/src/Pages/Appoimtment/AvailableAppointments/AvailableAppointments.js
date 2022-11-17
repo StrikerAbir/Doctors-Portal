@@ -8,11 +8,13 @@ const AvailableAppointments = ({ selectedDate }) => {
   // const [appointmentOptions, setAppointmentOptions] = useState([]);
   const [treatment, setTreatment] = useState(null);
 
+  const date=format(selectedDate, "PP")
+
   // const {data:appointmentOptions,isLoading} = useQuery({  ei line or nicher line
-  const {data:appointmentOptions=[]} = useQuery({
-    queryKey: ["appointmentOptions"],
+  const { data: appointmentOptions = [] } = useQuery({
+    queryKey: ["appointmentOptions",date],
     queryFn: () =>
-      fetch("http://localhost:1000/appointmentOptions").then((res) =>
+      fetch(`http://localhost:1000/appointmentOptions?date=${date}`).then((res) =>
         res.json()
       ),
   });
@@ -25,7 +27,7 @@ const AvailableAppointments = ({ selectedDate }) => {
   return (
     <section className="mt-5">
       <p className="text-center text-xl font-semibold text-primary">
-        Available Appointments on {format(selectedDate, "PP")}
+        Available Appointments on {date}
       </p>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-24">
         {appointmentOptions.map((option) => (

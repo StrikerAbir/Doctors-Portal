@@ -25,16 +25,30 @@ async function run() {
         const appointmentOptionCollection = client.db('doctorsPortal').collection("appointmentOptions");
         const bookingsCollection= client.db('doctorsPortal').collection('bookings')
         
+        // Use aggregate to query multiple collection and then merge data
         app.get('/appointmentOptions', async (req, res) => {
+            const date = req.query.date;
+            // console.log(date);
             const query = {};
+            // all appointment get 
             const options = await appointmentOptionCollection.find(query).toArray();
+            // all appointment for a single date.
+            const bookingQuery = { appointmentDate: date };
+            const alreadyBooked = await bookingsCollection.find(bookingQuery).toArray();
+            // all appointment k loop korsi
+            options.forEach(option => {
+                //all appointment for a single date theke filter kore nicchi akta single appointment option k.
+                const optionBooked = alreadyBooked.filter(book => book.treatment === option.name)
+                // single appointment theke kon kon time slot select kora ase seta ber korlam
+                const bookedSlots= optionBooked.map(book =>book.slot)
+            })
             res.send(options)
         });
 
         //* bookings
         app.post('/bookings', async (req, res) => {
             const booking = req.body
-            console.log(booking);
+            // console.log(booking); 
             const result = await bookingsCollection.insertOne(booking);
             res.send(result)
         })
