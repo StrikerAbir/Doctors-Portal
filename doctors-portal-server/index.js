@@ -3,6 +3,7 @@ const cors = require("cors");
 require("dotenv").config();
 const port = process.env.PORT || 1000;
 const app = express();
+const jwt = require('jsonwebtoken');
 
 // middleware
 app.use(cors());
@@ -11,6 +12,7 @@ app.use(express.json());
 // variable
 const user = process.env.DB_USER;
 const password = process.env.DB_PASS;
+const secret = process.env.ACCESS_TOKEN;
 
 const { MongoClient, ServerApiVersion } = require("mongodb");
 const uri = `mongodb+srv://${user}:${password}@cluster0.nvx6pod.mongodb.net/?retryWrites=true&w=majority`;
@@ -27,6 +29,9 @@ async function run() {
     const bookingsCollection = client
       .db("doctorsPortal")
       .collection("bookings");
+    const usersCollection = client
+      .db("doctorsPortal")
+      .collection("users");
 
     // Use aggregate to query multiple collection and then merge data
     app.get("/appointmentOptions", async (req, res) => {
@@ -114,7 +119,7 @@ async function run() {
       const email = req.query.email;
       const query = { email: email };
       const bookings = await bookingsCollection.find(query).toArray();
-      console.log(bookings);
+      
       res.send(bookings);
     })
 
@@ -135,6 +140,26 @@ async function run() {
       const result = await bookingsCollection.insertOne(booking);
       res.send(result);
     });
+
+    //* users
+    app.post('/users', async (req, res) => {
+      const user = req.body;
+      const result = await usersCollection.insertOne(user); 
+      res.send(result);
+    })
+
+    //* JWT
+    app.get('/jwt', async (req, res) => {
+      const email = req.query.email;
+      const query = { email: email };
+      const user = await usersCollection.findOne(query);
+      console.log(user);
+      if (user) {
+        const token=jwt.sign({email},secret,{expiresIn:'1h'})
+        return res.send({accessToken:token});
+      }
+      return res.status(403).send({ accessToken:''});
+    })
   } finally {
   }
 }
