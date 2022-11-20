@@ -8,7 +8,7 @@ const SignUp = () => {
   const { createUser, updateUserProfile } = useContext(AuthContext);
   const [signUpError, setSignUpError] = useState(null);
 
-  const navigate= useNavigate()
+  const navigate = useNavigate();
 
   const {
     register,
@@ -17,10 +17,10 @@ const SignUp = () => {
   } = useForm();
 
   const handleSignUp = (data) => {
-    setSignUpError(null)
+    setSignUpError(null);
     console.log(data);
     createUser(data.email, data.password)
-      .then(result => {
+      .then((result) => {
         const user = result.user;
         const userInfo = {
           displayName: data.name,
@@ -28,33 +28,44 @@ const SignUp = () => {
         // console.log(userInfo);
         updateUserProfile(userInfo)
           .then(() => {
-            saveUser(data.name,data.email);
+            saveUser(data.name, data.email);
           })
           .catch((err) => console.error(err));
-        toast.success('User created successfully..')
+        toast.success("User created successfully..");
       })
-      .catch(err => {
-        console.error(err)
-        setSignUpError(err.message)
+      .catch((err) => {
+        console.error(err);
+        setSignUpError(err.message);
         toast.error(err.message);
-      })
+      });
   };
 
   const saveUser = (name, email) => {
     const user = { name, email };
     fetch("http://localhost:1000/users", {
-      method: 'POST',
+      method: "POST",
       headers: {
-        'content-type': 'application/json'
+        "content-type": "application/json",
       },
-      body: JSON.stringify(user)
+      body: JSON.stringify(user),
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log("save user", data);
-        navigate("/");
+        // console.log("save user", data);
+        getUserToken(email)
       });
-  }
+  };
+
+  const getUserToken = (email) => {
+    fetch(`http://localhost:1000/jwt?email=${email}`)
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.accessToken) {
+          localStorage.setItem('accessToken',data.accessToken)
+          navigate("/");
+        }
+      });
+  };
 
   return (
     <div className="h-screen flex justify-center items-center">
@@ -116,7 +127,6 @@ const SignUp = () => {
                 <small>{errors.password?.message}</small>
               </p>
             )}
-           
           </div>
           <div>
             {signUpError && (
