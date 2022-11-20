@@ -3,13 +3,21 @@ import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../AuthProvider/AuthProvider";
+import useToken from "../../Hooks/useToken";
 import GoogleLogin from "../../Shared/GoogleLogin";
 const SignUp = () => {
   const { createUser, updateUserProfile } = useContext(AuthContext);
   const [signUpError, setSignUpError] = useState(null);
 
+  const [createdUserEmail,setCreatedUserEmail] = useState(null);
+  // custom hook
+  const [token] = useToken(createdUserEmail);
   const navigate = useNavigate();
 
+  if (token) {
+    navigate("/");
+  }
+  
   const {
     register,
     formState: { errors },
@@ -51,21 +59,22 @@ const SignUp = () => {
     })
       .then((res) => res.json())
       .then((data) => {
+        setCreatedUserEmail(email)
         // console.log("save user", data);
-        getUserToken(email)
+        // getUserToken(email)
+        
       });
   };
 
-  const getUserToken = (email) => {
-    fetch(`http://localhost:1000/jwt?email=${email}`)
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.accessToken) {
-          localStorage.setItem('accessToken',data.accessToken)
-          navigate("/");
-        }
-      });
-  };
+  // const getUserToken = (email) => {
+  //   fetch(`http://localhost:1000/jwt?email=${email}`)
+  //     .then((res) => res.json())
+  //     .then((data) => {
+  //       if (data.accessToken) {
+  //         localStorage.setItem('accessToken',data.accessToken)
+  //       }
+  //     });
+  // };
 
   return (
     <div className="h-screen flex justify-center items-center">
