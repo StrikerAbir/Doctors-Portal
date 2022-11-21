@@ -31,7 +31,7 @@ function verifyJWT(req, res, next) {
   const token = authHeader.split(" ")[1];
   jwt.verify(token, secret, function (err, decoded) {
     if (err) {
-      console.log(err);
+      // console.log(err);
       return res.status(403).send({ message: "forbidden access" });
     }
     req.decoded = decoded;
@@ -48,6 +48,7 @@ async function run() {
       .db("doctorsPortal")
       .collection("bookings");
     const usersCollection = client.db("doctorsPortal").collection("users");
+    const doctorsCollection = client.db("doctorsPortal").collection("doctors");
 
     // Use aggregate to query multiple collection and then merge data
     app.get("/appointmentOptions", async (req, res) => {
@@ -219,6 +220,19 @@ async function run() {
       }
       return res.status(403).send({ accessToken: "" });
     });
+
+    // * doctors 
+    app.get('/doctors', async (req, res) => {
+      const query = {};
+      const doctors = await doctorsCollection.find(query).toArray();
+      res.send(doctors);
+    })
+    app.post('/doctors', async (req, res) => {
+      const doctor = req.body;
+      const result = await doctorsCollection.insertOne(doctor);
+      res.send(result);
+    })
+
   } finally {
   }
 }
