@@ -78,7 +78,7 @@ const BookingModal = ({ treatment, selectedDate, setTreatment, refetch }) => {
               </div>
               <div className="form-control mb-6">
                 <select name="slot" className="select select-bordered">
-                  {/* <option>Pick Appointment Time.</option> */}
+                  {/* <option >Pick Appointment Time.</option> */}
                   {slots.map((slot, index) => (
                     <option key={index} value={slot}>
                       {slot}

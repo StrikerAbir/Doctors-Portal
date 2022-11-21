@@ -24,12 +24,14 @@ const client = new MongoClient(uri, {
 
 function verifyJWT(req, res, next) {
   const authHeader = req.headers.authorization;
+  console.log(authHeader);
   if (!authHeader) {
     return res.status(401).send("unauthorized access");
   }
   const token = authHeader.split(" ")[1];
   jwt.verify(token, secret, function (err, decoded) {
     if (err) {
+      console.log(err);
       return res.status(403).send({ message: "forbidden access" });
     }
     req.decoded = decoded;
@@ -126,11 +128,20 @@ async function run() {
       res.send(options);
     });
 
+
+    app.get('/appointmentSpecialty', async (req, res) => {
+      const query = {};
+      const result = await appointmentOptionCollection.find(query).project({ name: 1 }).toArray();
+      res.send(result);
+    })
+
     //* bookings
 
     app.get("/bookings", verifyJWT, async (req, res) => {
       const email = req.query.email;
+      console.log(email);
       const decodedEmail = req.decoded.email;
+      console.log(decodedEmail);
       if (email !== decodedEmail) {
         return res.status(403).send({ message: "forbidden access." });
       }
@@ -164,6 +175,14 @@ async function run() {
       const users = await usersCollection.find(query).toArray();
       res.send(users);
     });
+
+    app.get('/users/admin/:email', async (req, res) => {
+      const email = req.params.email;
+      const query = { email: email };
+      const user = await usersCollection.findOne(query);
+      res.send({ isAdmin: user?.role === 'admin' });
+    })
+
     app.post("/users", async (req, res) => {
       const user = req.body;
       const result = await usersCollection.insertOne(user);
@@ -177,7 +196,7 @@ async function run() {
       if (user?.role !== 'admin') {
         return res.status(403).send({message:'forbidden access..'})
       }
-      
+
       const id = req.params.id;
       const filter = { _id: ObjectId(id) };
       const options = { upsert: true };
