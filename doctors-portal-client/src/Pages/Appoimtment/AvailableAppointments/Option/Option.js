@@ -1,7 +1,7 @@
 import React from "react";
 
 const Option = ({ option, setTreatment }) => {
-  const { name, slots } = option;
+  const { name, slots,price } = option;
   // console.log(slots.length);
   return (
     <div className="card  shadow-xl">
@@ -12,6 +12,9 @@ const Option = ({ option, setTreatment }) => {
         </p>
         <p className="text-center mb-2">
           {slots.length} {slots.length > 1 ? "spaces" : "space"} available
+        </p>
+        <p className="text-center mb-2">
+          <small>Price: ${price}</small>
         </p>
         <div className="card-actions justify-center">
           <label
