@@ -4,6 +4,7 @@ require("dotenv").config();
 const port = process.env.PORT || 1000;
 const app = express();
 const jwt = require("jsonwebtoken");
+const stripe = require("stripe")(process.env.STRIPE_SECRET);
 
 // middleware
 app.use(cors());
@@ -222,6 +223,23 @@ async function run() {
       const result = await usersCollection.updateOne(filter, updatedDoc, options);
       res.send(result)
     });
+
+    // * payment related 
+    app.post('/create-payment-intent', async (req, res) => {
+      //payment-intent er api eta.
+      const booking = req.body;
+      const price = booking.price;
+      const amount = price * 100;  // poishate conver kora
+      
+      const paymentIntent = await stripe.paymentIntents.create({
+        currency: "usd",
+        amount: amount,
+        payment_method_types: ["card"],
+      });
+      res.send({
+        clientSecret: paymentIntent.client_secret,
+      });
+    })
 
     //* JWT
     app.get("/jwt", async (req, res) => {
