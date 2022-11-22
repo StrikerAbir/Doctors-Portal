@@ -11,6 +11,7 @@ import Login from "../Pages/Login/Login";
 import MyAppointment from "../Pages/MyAppointment/MyAppointment";
 import SignUp from "../Pages/SignUp/SignUp";
 import Payment from "../Payment/Payment";
+import DisplayError from "../Shared/DisplayError";
 import AdminRoute from "./AdminRoute";
 import PrivateRoute from "./PrivateRoute";
 
@@ -18,6 +19,7 @@ export const router = createBrowserRouter([
   {
     path: "/",
     element: <Main></Main>,
+    errorElement: <DisplayError></DisplayError>,
     children: [
       {
         path: "/",
@@ -45,6 +47,7 @@ export const router = createBrowserRouter([
   },
   {
     path: "/dashboard",
+    errorElement: <DisplayError></DisplayError>,
     element: (
       <PrivateRoute>
         <DashboardLayout></DashboardLayout>
@@ -86,7 +89,8 @@ export const router = createBrowserRouter([
             <Payment></Payment>
           </AdminRoute>
         ),
-        loader:({params})=>fetch(`http://localhost:1000/bookings/${params.id}`)
+        loader: ({ params }) =>
+          fetch(`http://localhost:1000/bookings/${params.id}`),
       },
     ],
   },
