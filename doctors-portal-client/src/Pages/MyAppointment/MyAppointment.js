@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import React, { useContext } from "react";
+import { Link } from "react-router-dom";
 import { AuthContext } from "../../AuthProvider/AuthProvider";
 import Loading from "../../Shared/Loading";
 
@@ -36,18 +37,27 @@ const MyAppointment = () => {
                 <th>Treatment</th>
                 <th>Date</th>
                 <th>time</th>
+                <th>Payment</th>
               </tr>
             </thead>
             <tbody>
               {/* <!-- row 1 --> */}
               {
-                bookings?.map((bookings,index) => 
-                  <tr key={bookings._id}>
+                bookings?.map((booking,index) => 
+                  <tr key={booking._id}>
                     <th>{ index+1}</th>
-                    <td>{ bookings.patient}</td>
-                    <td>{ bookings.treatment}</td>
-                    <td>{bookings.appointmentDate}</td>
-                    <td>{bookings.slot}</td>
+                    <td>{ booking.patient}</td>
+                    <td>{ booking.treatment}</td>
+                    <td>{booking.appointmentDate}</td>
+                    <td>{booking.slot}</td>
+                    <td>
+                      {
+                        booking.price && !booking.paid && <Link to={`/dashboard/payment/${booking._id}`} className='btn btn-sm btn-warning'>Pay</Link>
+                      }
+                      {
+                        booking.price && booking.paid && <span className='text-green-400'>Paid</span>
+                      }
+                    </td>
                     
                   </tr>
                 )

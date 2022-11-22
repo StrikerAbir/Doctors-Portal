@@ -10,6 +10,7 @@ import Home from "../Pages/Home/Home";
 import Login from "../Pages/Login/Login";
 import MyAppointment from "../Pages/MyAppointment/MyAppointment";
 import SignUp from "../Pages/SignUp/SignUp";
+import Payment from "../Payment/Payment";
 import AdminRoute from "./AdminRoute";
 import PrivateRoute from "./PrivateRoute";
 
@@ -77,6 +78,15 @@ export const router = createBrowserRouter([
             <ManageDoctors></ManageDoctors>
           </AdminRoute>
         ),
+      },
+      {
+        path: "/dashboard/payment/:id",
+        element: (
+          <AdminRoute>
+            <Payment></Payment>
+          </AdminRoute>
+        ),
+        loader:({params})=>fetch(`http://localhost:1000/bookings/${params.id}`)
       },
     ],
   },
