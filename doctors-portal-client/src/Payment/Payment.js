@@ -13,9 +13,9 @@ const Payment = () => {
   const navigation = useNavigation();
 
   const { treatment, price, appointmentDate, slot } = booking;
-  if (navigation.state === 'loading') {
-    return <Loading></Loading>
-  }
+  // if (navigation.state === 'loading') {
+  //   return <Loading></Loading>
+  // }
     
     return (
       <div className="bg-slate-100 p-10">
