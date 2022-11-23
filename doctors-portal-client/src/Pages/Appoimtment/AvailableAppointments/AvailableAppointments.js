@@ -9,7 +9,7 @@ const AvailableAppointments = ({ selectedDate }) => {
   // const [appointmentOptions, setAppointmentOptions] = useState([]);
   const [treatment, setTreatment] = useState(null);
 
-  const date=format(selectedDate, "PP")
+  const date = format(selectedDate, "PP");
 
   // const {data:appointmentOptions,isLoading} = useQuery({  ei line or nicher line
   const {
@@ -19,19 +19,19 @@ const AvailableAppointments = ({ selectedDate }) => {
   } = useQuery({
     queryKey: ["appointmentOptions", date],
     queryFn: () =>
-      fetch(`http://localhost:1000/v2/appointmentOptions?date=${date}`).then(
-        (res) => res.json()
-      ),
+      fetch(
+        `https://doctors-portal-server-mocha-phi.vercel.app/v2/appointmentOptions?date=${date}`
+      ).then((res) => res.json()),
   });
-      // console.log(appointmentOptions);
+  // console.log(appointmentOptions);
   // useEffect(() => {
-  //   fetch("http://localhost:1000/appointmentOptions")
+  //   fetch("https://doctors-portal-server-mocha-phi.vercel.app/appointmentOptions")
   //     .then((res) => res.json())
   //     .then((data) => setAppointmentOptions(data));
   // }, []);
 
   if (isLoading) {
-    return <Loading></Loading>
+    return <Loading></Loading>;
   }
   return (
     <section className="mt-5">

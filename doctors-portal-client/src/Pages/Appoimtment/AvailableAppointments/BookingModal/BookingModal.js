@@ -4,7 +4,7 @@ import toast from "react-hot-toast";
 import { AuthContext } from "../../../../AuthProvider/AuthProvider";
 
 const BookingModal = ({ treatment, selectedDate, setTreatment, refetch }) => {
-  const { name, slots,price } = treatment; //treatment is option different
+  const { name, slots, price } = treatment; //treatment is option different
 
   const { user } = useContext(AuthContext);
 
@@ -23,14 +23,14 @@ const BookingModal = ({ treatment, selectedDate, setTreatment, refetch }) => {
       patient: fName,
       phone,
       email,
-      price
+      price,
     };
     // console.log(booking);
     //* TODO: send data to the server
     //* and once data is saved then close the modal
     //* and display success toast
 
-    fetch("http://localhost:1000/bookings", {
+    fetch("https://doctors-portal-server-mocha-phi.vercel.app/bookings", {
       method: "POST",
       headers: {
         "content-type": "application/json",
@@ -46,7 +46,6 @@ const BookingModal = ({ treatment, selectedDate, setTreatment, refetch }) => {
           refetch();
         } else {
           toast.error(data.message);
-          
         }
       })
       .catch((err) => {

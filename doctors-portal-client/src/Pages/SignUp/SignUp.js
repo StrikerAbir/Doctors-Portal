@@ -9,7 +9,7 @@ const SignUp = () => {
   const { createUser, updateUserProfile } = useContext(AuthContext);
   const [signUpError, setSignUpError] = useState(null);
 
-  const [createdUserEmail,setCreatedUserEmail] = useState(null);
+  const [createdUserEmail, setCreatedUserEmail] = useState(null);
   // custom hook
   const [token] = useToken(createdUserEmail);
   const navigate = useNavigate();
@@ -17,7 +17,7 @@ const SignUp = () => {
   if (token) {
     navigate("/");
   }
-  
+
   const {
     register,
     formState: { errors },
@@ -50,7 +50,7 @@ const SignUp = () => {
 
   const saveUser = (name, email) => {
     const user = { name, email };
-    fetch("http://localhost:1000/users", {
+    fetch("https://doctors-portal-server-mocha-phi.vercel.app/users", {
       method: "POST",
       headers: {
         "content-type": "application/json",
@@ -59,15 +59,14 @@ const SignUp = () => {
     })
       .then((res) => res.json())
       .then((data) => {
-        setCreatedUserEmail(email)
+        setCreatedUserEmail(email);
         // console.log("save user", data);
         // getUserToken(email)
-        
       });
   };
 
   // const getUserToken = (email) => {
-  //   fetch(`http://localhost:1000/jwt?email=${email}`)
+  //   fetch(`https://doctors-portal-server-mocha-phi.vercel.app/jwt?email=${email}`)
   //     .then((res) => res.json())
   //     .then((data) => {
   //       if (data.accessToken) {
